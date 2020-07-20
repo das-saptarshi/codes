@@ -1,0 +1,73 @@
+/*
+  This code performs disjoint set operations : find() and union().
+  This is operations are used for a making a connected graph, without any cycles.
+*/
+
+import java.util.*;
+
+
+public class Main
+{
+    public static int find(int[] parent, int child){
+        /*This method finds the parent vertex of a child vertex.
+          parent array contains the parent info of every vertex.
+          The child is the node for which we are finding its parent.
+          parent[0] --> the parent vertex of 0.
+          if parent[0] --> negative, then it is the parent vertex.
+         */
+         
+        while(parent[child] >= 0){
+            child = parent[child];
+        }
+        return child;
+    }
+    
+    
+    public static boolean union(int[] parent, int parent1, int parent2){
+        /*This method is used to form set unions for the given parent vertices.
+          If both the parent are same then it will form a cycle.
+          Else set the vertex with the max child as the new parent among the two.
+         */
+     
+        if(parent1 == parent2) return false;
+        if(parent[parent1] < parent[parent2]){
+            parent[parent1] += parent[parent2];
+            parent[parent2] = parent1;
+        }
+        else{
+            parent[parent2] += parent[parent2];
+            parent[parent1] = parent2;
+        }
+        return true;
+    }
+    
+    
+  
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner scan = new Scanner(System.in);
+		int N = 8;
+		int E = 9;
+		int[][] edges = {
+		    {0,1},
+		    {2,3},
+		    {4,5},
+		    {6,7},
+		    {1,3},
+		    {1,4},
+		    {0,2},
+		    {5,7},
+		    {4,6}
+		};
+		int[] parent = new int[N];
+		Arrays.fill(parent, -1);
+		
+		int parent1 , parent2;
+		for(int i = 0; i < E; i++){
+		    parent1 = find(parent, edges[i][0]);
+		    parent2 = find(parent, edges[i][1]);
+		   
+		    if(union(parent, parent1, parent2)) System.out.println(i+1);
+		}
+	}
+}
