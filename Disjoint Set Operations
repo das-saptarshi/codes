@@ -1,6 +1,6 @@
 /*
   This code performs disjoint set operations : find() and union().
-  This is operations are used for a making a connected graph, without any cycles.
+  This is operations are used for a making a undirected connected graph, without any cycles.
 */
 
 import java.util.*;
