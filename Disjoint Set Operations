@@ -1,6 +1,6 @@
 /*
-  This code performs disjoint set operations : find() and union().
-  This is operations are used for a making a undirected connected graph, without any cycles.
+  This code performs disjoint set operations : collapsing_find() and union().
+  This is operations are used for a making an undirected connected graph, without any cycles.
 */
 
 import java.util.*;
@@ -8,66 +8,68 @@ import java.util.*;
 
 public class Main
 {
-    public static int find(int[] parent, int child){
+    public static int collapsing_find(int[] parent, int child){
         /*This method finds the parent vertex of a child vertex.
-          parent array contains the parent info of every vertex.
-          The child is the node for which we are finding its parent.
-          parent[0] --> the parent vertex of 0.
+          parent[0] --> returns the parent vertex of vertex 0.
           if parent[0] --> negative, then it is the parent vertex.
          */
          
-        while(parent[child] >= 0){
-            child = parent[child];
-        }
-        return child;
+        if(parent[child] < 0) return child;
+        
+        parent[child] = collapsing_find(parent, parent[child]);
+        return parent[child];
     }
     
     
-    public static boolean union(int[] parent, int parent1, int parent2){
-        /*This method is used to form set unions for the given parent vertices.
-          If both the parent are same then it will form a cycle.
-          Else set the vertex with the max child as the new parent among the two.
+    public static boolean union(int[] sets, int set1, int set2){
+        /*This method is used to form set unions for the given set of vertices.
+          If both the sets are same then it will form a cycle, hence return false.
+          Else the set with the max members will become the new set and returns true.
          */
      
-        if(parent1 == parent2) return false;
-        if(parent[parent1] < parent[parent2]){
-            parent[parent1] += parent[parent2];
-            parent[parent2] = parent1;
+        if(set1 == set2) return false;
+        if(sets[set1] < sets[set2]){
+            sets[set1] += sets[set2];
+            sets[set2] = set1;
         }
         else{
-            parent[parent2] += parent[parent2];
-            parent[parent1] = parent2;
+            sets[set2] += sets[set2];
+            sets[set1] = set2;
         }
         return true;
     }
     
     
-  
+    
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		Scanner scan = new Scanner(System.in);
 		int N = 8;
-		int E = 9;
+		int E = 13;
 		int[][] edges = {
-		    {0,1},
-		    {2,3},
-		    {4,5},
-		    {6,7},
-		    {1,3},
-		    {1,4},
-		    {0,2},
-		    {5,7},
-		    {4,6}
+            {0,1},
+            {1,2},
+            {2,4},
+            {4,5},
+            {5,6},
+            {6,7},
+            {7,0},
+            {0,6},
+            {1,3},
+            {2,3},
+            {3,4},
+            {3,5},
+            {3,7}
 		};
 		int[] parent = new int[N];
 		Arrays.fill(parent, -1);
 		
-		int parent1 , parent2;
+		int vertex1 , vertex2;
 		for(int i = 0; i < E; i++){
-		    parent1 = find(parent, edges[i][0]);
-		    parent2 = find(parent, edges[i][1]);
+		    vertex1 = collapsing_find(parent, edges[i][0]);
+		    vertex2 = collapsing_find(parent, edges[i][1]);
 		   
-		    if(union(parent, parent1, parent2)) System.out.println(i+1);
+		    if(union(parent, vertex1, vertex2)) System.out.println(i+1);
 		}
 	}
 }
