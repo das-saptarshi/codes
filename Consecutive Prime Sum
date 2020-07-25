@@ -1,0 +1,42 @@
+/*Consecutive Prime Sum
+  This program finds the count of prime numbers upto
+  a given number, which are a result of sum of consecutive
+  prime numbers starting from 2.
+  Like 17 = 2 + 3 + 5 + 7
+*/
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        long N = scan.nextLong();
+        long total = 2;
+        int count = 0;
+        
+        for(long i = 3; i <= N ; i++){
+            if(isPrime(i)){
+                total += i;
+                if(isPrime(total)){
+                    count++;
+                }
+                i++;
+            }
+            if(total+i+1 > N) break;
+        }
+        System.out.println(count);
+    }
+    
+    public static boolean isPrime(long num){
+        if(num <= 1) return false;
+        if(num <= 3) return true;
+        
+        if(num % 2 == 0 || num % 3 == 0) return false;
+        
+        int limit = (int)(Math.sqrt(num) + 1);
+        for(int i = 5 ; i < limit ; i += 6){
+            
+            if(num % i == 0 || num % (i+2) == 0) return false;
+        }
+        return true;
+    }
+}
