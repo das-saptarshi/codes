@@ -1,0 +1,35 @@
+/*Square Free Numbers.
+  A square free number is a number which is not divisible by any
+  perfect square, like 2, 3, 5 ,7, 10, 11, 13, ... 70 etc.
+  This program finds the count of square free numbers which divides a
+  given number N.
+  It is also given that the input number N is not divisible by any
+  prime number greater than 19.
+*/
+
+import java.util.*;
+
+public class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+	    Scanner scan = new Scanner(System.in);
+	    
+	    int N = scan.nextInt();
+	    int[] factors = {2,3,5,7,11,13,17,19};
+	    
+	    int power = 0;
+	    int total = 1;
+	    for(int factor : factors){
+	        if(N % factor == 0){
+	            power++;
+	            total *= factor;
+	        }
+	    }
+	    
+	    if(total == N) total = 2;
+	    else total = 1;
+	    
+	    System.out.println((int)(Math.pow(2, power)) - total);
+	}
+}
