@@ -1,0 +1,147 @@
+'''
+A Queen's Life:
+    This is a CodeVita Question.
+    Here we are given a N*N chess board and M number of queens on it.
+    We have to minimize the number of queens by picking up a queen and attacking
+    all others.
+'''
+
+
+def find_neighbours(queens):
+    '''
+    Method to find the neighbours of every queen.
+    '''
+    global N, M
+    neighbours = {}
+    grid = [[-1]*N for i in range(N)]
+    
+    for i in range(M):
+        grid[queens[i][0]][queens[i][1]] = i
+    
+    for q in range(M):
+        neighbours[q] = []
+        x, y = queens[q][0], queens[q][1]
+        
+        #up direction
+        for i in range(x-1, -1, -1):
+            if grid[i][y] != -1:
+                neighbours[q].append(grid[i][y])
+                break
+        
+        #down direction
+        for i in range(x+1, N):
+            if grid[i][y] != -1:
+                neighbours[q].append(grid[i][y])
+                break
+        
+        #left direction
+        for i in range(y-1, -1, -1):
+            if grid[x][i] != -1:
+                neighbours[q].append(grid[x][i])
+                break
+        
+        #right direction
+        for i in range(y+1, N):
+            if grid[x][i] != -1:
+                neighbours[q].append(grid[x][i])
+                break
+        
+        
+        #up-left direction
+        i = x-1
+        j = y-1
+        while(i >= 0 and j >= 0):
+            if grid[i][j] != -1:
+                neighbours[q].append(grid[i][j])
+                break
+            i -= 1
+            j -= 1
+        
+        
+        #up-right direction
+        i = x-1
+        j = y+1
+        while(i >= 0 and j < N):
+            if grid[i][j] != -1:
+                neighbours[q].append(grid[i][j])
+                break
+            i -= 1
+            j += 1
+        
+        #down-right direction
+        i = x+1
+        j = y+1
+        while(i < N and j < N):
+            if grid[i][j] != -1:
+                neighbours[q].append(grid[i][j])
+                break
+            i += 1
+            j += 1
+        
+        #down-left direction
+        i = x+1
+        j = y-1
+        while(i < N and j >= 0):
+            if grid[i][j] != -1:
+                neighbours[q].append(grid[i][j])
+                break
+            i += 1
+            j -= 1
+        
+    return neighbours
+
+
+def input_queens(N, M):
+    '''
+    Method to take coordinate inputs of M queens.
+    The input format is :
+        M lines containing row, column, queen_number
+    '''
+    queens = {}
+    for i in range(M):
+        x, y, _ = input().split(',')
+        queens[i] = [int(x)-1, int(y)-1]
+    return queens
+
+
+
+def find_longest_path(queen):
+    '''
+    Recursive method to find the maximum number of 
+    queens a particualar queen can kill.
+    '''
+    global queens, neighbours, visisted
+    visited[queen] = True
+    ans = 0
+    for i in neighbours[queen]:
+        if not visited[i]:
+            ans = max(ans, find_longest_path(i))
+    
+    visited[queen] = False
+    return ans+1
+    
+
+'''
+Starting point.
+First line of input contains : N, M
+    [N : size of chess board, M : number of queens on board]
+
+Then creating a dictionary 'queens' which holds the coordinates of each queen.
+
+After that creating a dictionary 'neighbours' holding the neighbours of each queen.
+[A neighbour of queen[i] is the first queen located in up, down, left, right, up-left,
+ up-right, down-right and down-left directions]
+ 
+Finding the maximum number of queens, ith queen can kill.
+
+Then printing the remaining queens.
+'''
+N, M = map(int, input().split(','))
+queens = input_queens(N, M)
+neighbours = find_neighbours(queens)
+visited = [False]*M
+ans = 0
+for i in range(M):
+    ans = max(ans, find_longest_path(i))
+
+print(M - ans + 1)
