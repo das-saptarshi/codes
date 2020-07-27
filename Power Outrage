@@ -1,0 +1,64 @@
+'''
+Power Outrage:
+    This is a Codevita question.
+    Here we are given the initial run rate, the score of two players on stike.
+    After some deliveries the new run rate is given. Also the runs or wickets on every ball of
+    the specified number of deliveries is given as timeline.
+    We have to find the initial score, the score of two players.
+'''
+
+def find_balls_runs(runs_scored, deliveries, current_rr, initial_rr):
+    balls = round((current_rr*deliveries - runs_scored*6) / (initial_rr - current_rr))
+    runs = round(balls * initial_rr / 6)
+    return balls, runs
+
+def find_player_score(score, timeline, deliveries, initial_balls):
+    over = initial_balls % 6 + 1
+    player = 0
+    
+    for run in timeline:
+        if run == 'W':
+            score[player] = 0
+        elif int(run) % 2 == 0:
+            score[player] += int(run)
+        else:
+            score[player] += int(run)
+            player = (player + 1) % 2
+        
+        if over % 6 == 0:
+            player = (player + 1) % 2
+        over += 1
+    return [score[player], score[(player+1)%2]]
+            
+
+    
+'''
+Input Format : 
+    Line 1 contains the initial run rate.
+    Line 2 contains the score of the two batsman (First score is of striker).
+    Line 3 contains the runs/wickets on each ball for the gievn number of deliveries.
+    Line 4 contains the current run rate.
+    
+Output Format : 
+    A line containing 3 numbers.
+        1. Current score of team
+        2. Score of striker
+        3. Score of non-striker
+'''
+
+initial_rr = float(input())
+score = list(map(int, input().split()))
+timeline = input().split()
+current_rr = float(input())
+
+deliveries = len(timeline)
+runs_scored = 0
+for i in range(deliveries):
+    if timeline[i] != 'W':
+        runs_scored += int(timeline[i])
+
+initial_balls, initial_runs = find_balls_runs(runs_scored, deliveries, current_rr, initial_rr)
+
+score = find_player_score(score, timeline, deliveries, initial_balls)
+
+print(initial_runs + runs_scored, score[0], score[1])
