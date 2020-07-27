@@ -1,0 +1,50 @@
+'''
+Taxation Woes:
+    This is a Codevita question.
+    Here we are given N slabs and their corresponding tax %.
+    We are also given rebate amount and tax paid by all the employees.
+    From this we have to find the total amount of salary the company pays
+    in terms of salary.
+'''
+
+def find_salary(index, tax_amount):
+    '''
+    Method to find the taxable salary of an employee.
+    '''
+    global slab, tax
+    if index == len(slab) - 1:
+        return tax_amount * 100 / tax[-1]
+    
+    max_tax_amount = (slab[index+1] - slab[index]) * tax[index] / 100
+    
+    if tax_amount > max_tax_amount:
+        return  max_tax_amount * 100 / tax[index] + find_salary(index+1, tax_amount-max_tax_amount)
+    else:
+        return tax_amount * 100 / tax[index]
+
+    
+'''
+Input Format : 
+    Line 1 contains N space separate numbers, defining the slabs.
+    Line 2 contains N space separated numbers,  defining the tax in respective slabs.
+    Line 3 contains the rebate every employee gets.
+    Line 4 contains the tax paid by every employee.
+    
+Output Format :
+    One line containing the total amount paid by the company as salary
+    to its employees.
+'''
+slab = list(map(int, input().split()))
+tax = list(map(int, input().split()))
+rebate = int(input())
+tax_paid = list(map(int, input().split()))
+
+employees = len(tax_paid)
+total_amount = 0
+for i in range(employees):
+    total_amount += slab[0]
+    total_amount += find_salary(0, tax_paid[i])
+
+total_amount += rebate*employees
+print(round(total_amount))
+    
