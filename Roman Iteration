@@ -1,0 +1,59 @@
+'''
+Roman Iteration:
+    This is a Codevita question.
+    In this question we are given a number N.
+    If N is in the range [1, 3999] (both inclusive) then we have to convert N into
+    roman literals.
+    After that identify the base of the number (which can be from 2 to 36) and then convert
+    roman literal from that base to base 10.
+    Continue these steps until N is in the range.
+    
+    At last print N.
+'''
+
+
+# Array for calculating the roman literal.
+roman = [
+    ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'],
+    ['', 'X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC', 'C'],
+    ['', 'C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM', 'M'],
+    ['', 'M', 'MM', 'MMM']
+]
+
+
+def get_roman_number(N):
+    # Method to calculate the roman literal.
+    global roman
+    place = 0
+    R = ''
+    while(N > 0):
+        index = N % 10
+        R = roman[place][index] + R
+        place += 1
+        N //= 10
+    return R
+
+def get_base_number(R):
+    # Method to convert the number R in base 'x'
+    # to base 10
+    base = ord(max(R)) - 54
+    N = 0
+    power = 0
+    for i in R[::-1]:
+        N += (ord(i)-55)*base**power
+        power += 1
+    return N
+        
+'''
+Input Format : 
+    One line containing the value N.
+    
+Output Format :
+    One line containing the value N (out of the specified range).
+'''
+N = int(input())
+while 0 < N < 4000 :
+    R = get_roman_number(N)
+    N = get_base_number(R)
+print(N)
+        
