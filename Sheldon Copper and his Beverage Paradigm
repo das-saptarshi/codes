@@ -1,0 +1,63 @@
+'''
+Sheldon Copper and his Beverage Paradigm:
+    This is a Codevita question.
+    Here we are given a list of drinks and an amount X.
+    We have to find whether a triplet is there or not that sums up
+    to exactly X.
+'''
+
+
+def hashing_solve(drinks, X):
+    '''
+    Here we are first fixing a number then finding a
+    pair which sums up to X - number.
+    '''
+    for i in range(len(drinks)):
+        first_drink = drinks[i]
+        temp_X = X - first_drink
+        complements = {}
+        for j in range(i+1, len(drinks)):
+            if temp_X - drinks[j] in complements:
+                return True
+            complements[drinks[j]] = j
+    return False
+
+
+def two_pointer_solve(drinks, X):
+    '''
+    Here we are sorting the array and then using
+    two pointer approach to find if there exists
+    the sum of X - number.
+    '''
+    drinks.sort()
+    for i in range(len(drinks)):
+        temp_X = X - drinks[i]
+        low = i+1
+        high = len(drinks) - 1
+        while low < high:
+            if drinks[low] + drinks[high] > temp_X:
+                high -= 1
+            elif drinks[low] + drinks[high] < temp_X:
+                low += 1
+            else:
+                return True
+    return False
+    
+
+if __name__ == '__main__':
+    
+    '''
+    Input Format :
+        Line 1 contains a list of drinks amount.
+        Line 2 contains the desired amount X.
+        
+    Output Format :
+        One line containing True if triplet is possible or False.
+    '''
+    drinks = list(map(int, input().split()))
+    X = int(input())
+    
+    print(hashing_solve(drinks[:], X))
+    print(two_pointer_solve(drinks[:], X))
+
+            
