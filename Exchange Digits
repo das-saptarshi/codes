@@ -1,0 +1,36 @@
+'''
+Exchange Digits :
+    This is a Codevita question.
+    In this question we are given 2 numbers 'a' and 'b'.
+    We have to exchange the digits of 'a' and get the first number
+    which is greater than 'b'.
+    If such a number is not possible then return -1.
+'''
+
+from itertools import permutations
+
+def find_number(a, b):
+    if not int(''.join(a[::-1])) > b:
+        return -1
+    
+    permutation_list = permutations(a)
+    for number in permutation_list:
+        number = int(''.join(number))
+        if number > b:
+            return number
+    return -1
+
+
+'''
+Input Format :
+    Line 1 for number 'a'.
+    Line 2 for number 'b'.
+    
+Output Format :
+    Number greater than b or -1.
+'''
+a = input()
+b = int(input())
+
+number = find_number(sorted(a), b)
+print(number)
