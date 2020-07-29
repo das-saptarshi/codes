@@ -15,11 +15,11 @@ def hashing_solve(drinks, X):
     for i in range(len(drinks)):
         first_drink = drinks[i]
         temp_X = X - first_drink
-        complements = {}
+        complements = set()
         for j in range(i+1, len(drinks)):
             if temp_X - drinks[j] in complements:
                 return True
-            complements[drinks[j]] = j
+            complements.add(drinks[j])
     return False
 
 
