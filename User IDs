@@ -1,0 +1,48 @@
+'''
+User ID:
+    This is a Codevita question.
+    In this question we are given a string which contains N userIDs.
+    Each userID is atleast 4 character long, doesn't start or end with
+    a vowel.
+    
+    We have to determine the total number of userIDs possible.
+'''
+
+def is_consonant(char):
+    '''
+    Utility method for checking whether the given character is consonant or not.
+    '''
+    if char not in 'aeiou':
+        return True
+    return False
+
+
+def find_userIDs(userIDs, employees, used_userIDs):
+    '''
+    Recursive method to determine each combination of userIDs.
+    '''
+    if employees == 0 and len(userIDs) == 0:
+        return 1
+    if len(userIDs) < 4 or not is_consonant(userIDs[0]):
+        return 0
+    
+    ans = 0
+    for i in range(3, len(userIDs)):
+        if is_consonant(userIDs[i]) and userIDs[:i+1] not in used_userIDs:
+            used_userIDs.add(userIDs[:i+1])
+            ans += find_userIDs(userIDs[i+1:], employees-1, used_userIDs)
+            used_userIDs.remove(userIDs[:i+1])
+    return ans
+
+'''
+Input Format :
+    Line 1 contains a number N denoting the number of employees.
+    Line 2 contains all the userIDs (contatenated).
+    
+Output Format :
+    One line describing the total number of combinations possible.
+'''
+employees = int(input())
+userIDs = input()
+
+print(find_userIDs(userIDs, employees, set()))
