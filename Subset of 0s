@@ -1,0 +1,62 @@
+'''
+Subset of 0s:
+    This is a Goldman Sachs question.
+    We are given an array of numbers. We first have to calculate the sum of
+    all the prime factors of all the numbers in primeSum.
+    
+    Then we have to divide primeSum number of zeros in K groups.
+'''
+
+def nCr(n, r):
+    '''
+    Method to calculate nCr.
+    '''
+    ans = 1
+    for i in range(1, r+1):
+        ans *= n // i
+        n -= 1
+    return ans
+
+def is_prime(num):
+    '''
+    Method for primality check.
+    '''
+    if num <= 3:
+        return True
+    if num % 2 == 0 or num % 3 == 0:
+        return False
+    for i in range(5, int(num**(0.5)), 6):
+        if num % i == 0 or num % (i+2) == 0:
+            return False
+    return True
+
+def find_prime_sum(numbers):
+    '''
+    Method to find primeSum
+    '''
+    primeSum = 0
+    for num in numbers:
+        for factor in range(2, num//2 + 2):
+            if num % factor == 0 and is_prime(factor):
+                primeSum += factor
+    return primeSum
+
+
+'''
+Input Format :
+    Line 1 contains number of groups K.
+    Line 2 contains number of elements N in the array.
+    Then N lines contains the elements of the array.
+    
+Output Format :
+    One line containing the number of ways the 0s can be grouped.
+'''
+K = int(input())
+N = int(input())
+numbers = [0]*N
+
+for i in range(N):
+    numbers[i] = int(input())
+
+primeSum = find_prime_sum(numbers)
+print(nCr(primeSum + K - 1, K - 1))
