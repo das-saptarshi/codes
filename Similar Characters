@@ -1,0 +1,33 @@
+'''
+Similar Characters :
+    We are given a string of characters.
+    After that we are given some indices and for every index we have to tell the
+    number of occurence of the character at that index before it.
+'''
+
+def convert_array(string, str_len):
+    freq = [0]*26
+    
+    for i in range(str_len):
+        index = ord(string[i]) - 97
+        string[i], freq[index] = freq[index], freq[index]+1
+
+        
+'''
+Input Format :
+    Line 1 contains number of characters N in the string.
+    Line 2 contains the string.
+    Line 3 contains the number of queries Q.
+    Next Q lines contains a number 'i' denoting the index.
+    
+Output Format :
+    Q lines denoting the number of occurence of the character at
+    a particular index before it.
+'''
+str_len = int(input())
+string = list(input())
+queries = int(input())
+convert_array(string, str_len)
+
+for _ in range(queries):
+    print(string[int(input())-1])
