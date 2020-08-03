@@ -1,0 +1,61 @@
+'''
+Forest Fire :
+    This is a CodeVita question.
+    Here we are given a matrix which is a layout of a forest. Every cell of
+    the forest is either a tree 'T' or a water body 'W'. The trees are very much
+    proone to fire.
+    It is given that fire starts at cell (i,j) then and spreads in all directions 
+    (i.e, North, South, East, West, North-East, North-West, South-East, South-West).
+    Every tree takes 1 minute time to burn.
+    
+    We have to calculate the total time taken for the forest to burn down.
+'''
+
+def time_to_burn(forest, row, col, R, C, time):
+    '''
+    Recursive method to mark the time the tree gets burned.
+    '''
+    if not(0 <= row < R) or not(0 <= col < C) or forest[row][col] == 0:
+        return
+    
+    if forest[row][col]!= -1 and time >= forest[row][col]:
+        return
+    
+    forest[row][col] = time
+    time += 1
+    ans = 0
+    for i in [-1,0,1]:
+        for j in [-1,0,1]:
+            time_to_burn(forest, row+i, col+j, R, C, time)
+    
+
+    
+'''
+Input Format :
+    Line 1 contains the dimensions of the forest as R and C.
+    Line 2 contains 2 integer row, col denoting the starting point of the fire.
+    Next R lines contains the C characters each denoting whether the cell contains
+    water or tree.
+    
+Ouput Format :
+    One line denoting the time taken for the forest to burn down.
+'''
+R, C = map(int, input().split())
+row, col = map(int, input().split())
+
+forest = [0]*R
+for i in range(R):
+    temp = input().split()
+    for j in range(C):
+        if temp[j] == 'W':
+            temp[j] = 0
+        else:
+            temp[j] = -1
+    forest[i] = temp[:]
+    
+time_to_burn(forest, row-1, col-1, R, C, 1)
+ans = 0
+for i in range(R):
+    ans = max(max(forest[i]), ans)
+    
+print(ans)
