@@ -1,0 +1,21 @@
+'''
+CodeVita Question :
+    Here we are first given a new order of alphabets and a word.
+    We have to sort the word according to the new order
+
+Input Format :
+    Line 1 contains the new order of alphabets.
+    Line 2 contains the word.
+    
+Output Format :
+    One line containing the word sorted in the new lexical order.
+
+'''
+alphabets = input()
+new_order = [0]*26
+string = list(input())
+
+for i in range(26):
+    new_order[ord(alphabets[i])-97] = i
+string.sort(key = lambda x : new_order[ord(x)-97])
+print(''.join(string))
