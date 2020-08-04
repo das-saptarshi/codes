@@ -79,8 +79,8 @@ days_in_month = [0,31,28,31,30,31,30,31,31,30,31,30,31]
 
 for month in range(1,13):
     for days in range(1, days_in_month[month]+1):
-        index = (6 - month)**2 + abs(15 - days)
-        freq_patients[index] += 1
+        patients = (6 - month)**2 + abs(15 - days)
+        patient_traffic[patients] += 1
 
         
 start = 0
@@ -89,14 +89,15 @@ end = total_rooms
 while(start < end):
     mid = (start + end) // 2
     curr_revenue = cal_rev(patient_traffic, total_rooms, mid, normal_fare, special_fare)
-    if curr_revenue == revenue:
+    
+    if curr_revenue == target_revenue:
         break
-    elif curr_revenue > revenue:
+    elif curr_revenue > target_revenue:
         end = mid
     else:
         start = mid + 1
 
-if curr_revenue > revenue:
+if curr_revenue > target_revenue:
     print(mid)
 else:
     print(total_rooms)
