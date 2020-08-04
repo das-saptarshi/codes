@@ -1,0 +1,103 @@
+'''
+Television Sets :
+    This is a CodeVita question.
+    In a hospital there are N number of rooms, out of which P are with tv and the rest
+    are without tv.
+    The rate of the two types of rooms are different (r1 r2).
+    
+    Also for a given date, the total number of patients that come in the hospital
+    is given as : (6 - M)^2 + |D - 15|, where M is the month and D is the day of
+    that month. [There is no leap years].
+    
+    Patients always refer normal rooms. If no normal room is available then the
+    patient opts for the special room.
+    
+    For the given conditions we are provided with the total number of rooms are the\
+    rate of the two types of rooms. Also we are given a target revenue for that year.
+    We have to calculate the minimum number of rooms with tv required for gaining
+    minimum the target revenue.
+'''
+
+def cal_rev(patient_traffic, total_rooms, tv_rooms, normal_fare, special_fare):
+    '''
+    Method to calculate the yearly revenue for the given number of special
+    rooms.
+    '''
+    
+    normal_rooms = total_rooms - tv_rooms
+    revenue = 0
+    
+    for patients in range(1, 53):
+        
+        if patients <= normal_rooms:
+            revenue += patients*normal_fare*patient_traffic[patients]
+            
+        elif normal_rooms < patients <= total_rooms:
+            revenue += patient_traffic[patients]*(normal_fare*normal_rooms + special_fare*(patients-normal_rooms))
+            
+        else:
+            revenue += patient_traffic[patients]*(normal_fare*normal_rooms + special_fare*tv_rooms)
+    
+    return revenue
+
+
+
+'''
+Input Format :
+    Line 1 contains total number of rooms.
+    Line 2 contains two integers. First the rate of special room and second the
+        rate of normal room.
+    Line 3 contains the target revenue for the year.
+    
+Output Format :
+    One line containing the minimum number of special rooms required.
+    If by any combination the target revenue is not possible then print the total
+    number of rooms.
+
+
+Sample Input 1:
+    20
+    1500 1000
+    7000000
+
+Sample Output 1:
+    14
+    
+Sample Input 2:
+    10
+    1500 1000
+    10000000
+
+Sample Output 2:
+    10
+'''
+total_rooms = int(input())
+special_fare, normal_fare = map(int, input().split())
+target_revenue = int(input())
+patient_traffic = [0]*53
+days_in_month = [0,31,28,31,30,31,30,31,31,30,31,30,31]
+
+for month in range(1,13):
+    for days in range(1, days_in_month[month]+1):
+        index = (6 - month)**2 + abs(15 - days)
+        freq_patients[index] += 1
+
+        
+start = 0
+end = total_rooms
+
+while(start < end):
+    mid = (start + end) // 2
+    curr_revenue = cal_rev(patient_traffic, total_rooms, mid, normal_fare, special_fare)
+    if curr_revenue == revenue:
+        break
+    elif curr_revenue > revenue:
+        end = mid
+    else:
+        start = mid + 1
+
+if curr_revenue > revenue:
+    print(mid)
+else:
+    print(total_rooms)
+    
