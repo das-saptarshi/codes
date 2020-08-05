@@ -1,0 +1,44 @@
+/*
+Counting Candies :
+    This is a Codevita question.
+    We are given N boxes and in each box there is some candies.
+    We have to store all the candies in a single. At a time we can transfer
+    the candies from two boxes to another box. If one box contains X candies and
+    another contains Y candies then the total time to transfer them is X+Y.
+    
+    We have to find the minimum time taken to store them in a single box.
+    
+Input Format :
+    Line 1 contains the number of testcases T.
+    For next T cases the first line denotes the number of boxes N.
+    The next line is N space separated numbers denoting the candies in each box.
+
+Output Format :
+    One line containing the minimum amount of time taken to store them in a
+    single box.
+*/
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        
+        int testcases = scan.nextInt();
+        
+        while(testcases-- > 0){
+            int N = scan.nextInt();
+            PriorityQueue<Long> queue = new PriorityQueue<Long>();
+            
+            for(int i = 0; i < N; i++){
+                queue.offer(scan.nextLong());
+            }
+            
+            long timeTaken = 0;
+            
+            while(queue.size() > 1){
+                long total = queue.poll() + queue.poll();
+                timeTaken += total;
+                queue.offer(total);
+            }
+            System.out.println(timeTaken);
+        }
+    }
+}
