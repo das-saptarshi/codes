@@ -1,0 +1,30 @@
+'''
+Zombie World :
+    This is a Codevita question.
+    Bob is playing Zombie World. In this game there are N zombies with Zi health.
+    In order to go to the next level Bob has to defeat all the zombies.
+    In fighting a zombie Bob loses (Zi%2) + (Zi/2) health.
+    If initial health of Bob is H then find whether Bob will manage to get to
+    the next level or not.
+    
+Input Format :
+    Line 1 contains two numbers, health H and number of zombies N.
+    Line 2 contains N space separated numbers denoting the health of each
+    zombie.
+    
+Output Format :
+    One line denoting Bob will clear the round or not.
+'''
+
+health, N = map(int, input().split())
+attacks = list(map(int, input().split()))
+
+for attack in attacks:
+    health -= (attack % 2) + (attack // 2)
+    if health < 0:
+        break
+if health < 0:
+    print('NO')
+else:
+    print('YES')
+        
