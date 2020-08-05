@@ -1,0 +1,33 @@
+'''
+Longest Progressive Sequence:
+    Given a sequence, the objective is to find the longest progressive sequence 
+    arranged in ascending order.
+    A sequence is said to be progressive if it doesn’t decrease at any point in time.
+    
+    
+Input Format:
+    Line 1 contains length of the sequence T.
+    Line 2 contains T space separated numbers.
+    
+Output Format:
+    The first longest progressive sequence.
+'''
+
+N = int(input())
+nums = list(map(int, input().split()))
+nums.append(-1)
+temp_max_seq = 1
+max_seq = 0
+start = 0
+end = 1
+for i in range(N):
+    if nums[i] <= nums[i+1]:
+        temp_max_seq += 1
+    elif temp_max_seq > max_seq:
+        max_seq = temp_max_seq
+        end = i + 1
+        start = i - temp_max_seq + 1
+        temp_max_seq = 1
+
+for i in range(start, end):
+    print(nums[i],end=' ')
