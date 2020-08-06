@@ -1,0 +1,31 @@
+'''
+Alpha Numeric Sorting:
+    This is a Codevita question.
+    
+Input Format :
+    Line 1 contains number of testcases T.
+    Next T lines contains a string of words and numbers.
+    
+Output Format:
+    T lines containing words followed by numbers in sorted manner.
+'''
+
+for _ in range(int(input())):
+    word_num = input().split()
+
+    nums = []
+    words = []
+
+    for string in word_num:
+        if string.isnumeric():
+            nums.append(int(string))
+        else:
+            words.append(string.lower())
+            
+    nums.sort()
+    words.sort()
+    
+    for i in range(len(nums)):
+        print(words[i],end=' ')
+        print(nums[i], end=' ')
+    print()
