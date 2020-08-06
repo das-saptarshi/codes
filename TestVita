@@ -1,0 +1,33 @@
+'''
+TestVita :
+    This is a Codevita question.
+'''
+def cal_dependent_time(point, dependent_list, time):
+    if point not in dependent_list:
+        return time[point]
+    total_time = 0
+    for i in dependent_list[point]:
+        total_time = max(total_time, cal_dependent_time(i, dependent_list, time))
+    return total_time + time[point]
+
+for _ in range(int(input())):
+    modules = int(input())
+    starting_points = []
+    dependent_list = {}
+    time = {}
+    for i in range(modules):
+        module = list(map(int, input().split()))
+        if len(module) == 2:
+            starting_points.append(module[0])
+        else:
+            for i in module[2:]:
+                if i in dependent_list:
+                    dependent_list[i].append(module[0])
+                else:
+                    dependent_list[i] = module[0:1]
+        time[module[0]] = module[1]
+    
+    total_time = 0
+    for point in starting_points:
+        total_time = max(total_time, cal_dependent_time(point, dependent_list, time))
+    print(total_time)
