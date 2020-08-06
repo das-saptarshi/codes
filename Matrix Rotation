@@ -1,0 +1,106 @@
+'''
+Matrix Rotation :
+    This is a Codevita quesstion.
+    In this we are given a N*N martrix and some task.
+    There are 3 kind of tasks.
+    1. Rotation by some angle.
+    2. Query for a cell.
+    3. Updating a cell in the inital matrix.
+    
+    For every query we have to print the corresponding element.
+'''
+
+def find_element(row, col, N, rotations):
+    start = 0
+    end = N-1
+    
+    while(start < end):
+        if row in [start, end] or col in [start, end]:
+            break
+        start += 1
+        end -= 1
+    if start == end:
+        return start, end
+    
+    steps = (end - start) * rotations
+
+    while steps > 0:
+        if start < col <= end and row == start:
+            temp_steps = min(steps, col-start)
+            col -= temp_steps
+        elif start <= row < end and col == start:
+            temp_steps = min(steps, end-row)
+            row += temp_steps
+        elif start <= col < end and row == end:
+            temp_steps = min(steps, end-col)
+            col += temp_steps
+        else:
+            temp_steps = min(steps, row-start)
+            row -= temp_steps
+        
+        steps -= temp_steps
+        
+    return row, col
+
+
+'''
+Input Fomrat :
+    Line 1 contains the dimension of the matrix N.
+    Next N lines contains N elements each which forms the matrix.
+    Then there are queries. The queries are given in the following way.
+    1. A angle : Queries starting with 'A' means we have to rotate the matrix in
+        clockwise direction by the given angle. The angle is always multiple of 90.
+    2. Q I J : Queries starting with 'Q' means we have to print the element at
+        position I,J in the newly modified matrix.
+    3. U I J V : Queries starting with 'U' means we have to update the element at
+        cell  I,J in the original matrix with the value V.
+        
+    The queries will end when -1 is given as input.
+    
+Output Format :
+    Print all the elements for the 'Q' query.
+    
+Sample Input 1:    	
+    2
+    1 2
+    3 4
+    A 90
+    Q 1 1
+    Q 1 2
+    A 90
+    Q 1 1
+    U 1 1 6
+    Q 2 2
+    -1
+    
+Sample Output 1:
+    3
+    1
+    4
+    6
+'''
+N = int(input())
+matrix = [0]*N
+rotations = 0
+
+for i in range(N):
+    matrix[i] = list(map(int, input().split()))
+
+query = input().split()
+while query[0] != '-1':
+    
+    if query[0] == 'A':
+        rotations += ((int(query[1]) % 360) // 90)
+        rotations %= 4
+        
+    elif query[0] == 'Q':
+        row, col = int(query[1])-1, int(query[2])-1
+        
+        row, col = find_element(row, col, N, rotations)
+        print(matrix[row][col])
+        
+    elif query[0] == 'U':
+        row, col = int(query[1])-1, int(query[2])-1
+        matrix[row][col] = int(query[3])
+        
+    query = input().split()
