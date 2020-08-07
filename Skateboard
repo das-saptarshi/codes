@@ -1,0 +1,88 @@
+'''
+Skateboard:
+    This is a Codevita question.
+'''
+
+
+def find_way(grid, visited, row, col, N):
+    '''
+    Recursive method to find a way to the finish point from the
+    current position.
+    '''
+    if not (0 <= row < N) or not (0 <= col < N) or grid[row][col] == 'D':
+        return False
+    
+    if grid[row][col] == 'F':
+        return True
+    
+    visited[row][col] = True
+    for direction in grid[row][col]:
+        r, c = row, col
+        if direction == 'N':
+            r -= 1
+        elif direction == 'E':
+            c += 1
+        elif direction == 'S':
+            r += 1
+        else:
+            c -= 1
+            
+        if not visited[r][c] and find_way(grid, visited, r, c, N):
+            visited[row][col] = False
+            return True
+    visited[row][col] = False
+    return False
+
+
+'''
+Input Format :
+    Line 1 contains a number N denoting the size of the grid.
+    Next N lines contains N string characters denoting the directions in which
+    the skateboard can go from the given cell.
+    
+Output Format :
+    Single line containing a number Y denoting the number of North and West
+    cells from which Finish point can be reached.
+    
+    
+Sample Input 1:
+5
+ES,SE,ES,SE,S
+S,EWS,SE,E,S
+E,D,SEW,NSE,S
+NE,N,SEW,D,W
+EN,EN,E,EN,F
+
+
+Sample Output 1:
+    4
+    
+    
+Sample Input 2:
+6
+ES,ES,SE,ES,ES,S
+SE,ES,SE,ES,ES,S
+ES,ES,SE,ES,SE,S
+ES,SE,ES,SE,E,D
+SE,ES,D,WSE,NES,NS
+E,E,NE,E,E,F
+
+
+Sample Output 2:
+9
+'''
+N = int(input())
+grid = [0]*N
+visited = [0]*N
+for i in range(N):
+    grid[i] = input().split(',')
+    visited[i] = [False]*N
+
+total_ways = 0
+
+for i in range(N):
+    if find_way(grid, visited, i, 0, N):
+        total_ways += 1
+    if i!= 0 and find_way(grid, visited, 0, i, N):
+        total_ways += 1
+print(total_ways)
