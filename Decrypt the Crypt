@@ -1,0 +1,40 @@
+'''
+Decrypt the Crypt :
+    This is a Codevita question.
+    Here we are given an encrypted password and set of characters to form the
+    original password. Using these two and the algorithm to form the encrypted
+    password from the original one, we have to back track the algorithm to
+    find the original password from the encrypted one.
+'''
+
+def decrypt(encrypted_password, characters):
+    if len(characters) != 10 or len(set(characters)) != 10:
+        return -1
+    A = int(encrypted_password[-1][-1])
+    C = encrypted_password[-1][:-1]
+    
+    B = [0]*10
+    password = [A]
+    N = 0
+    
+    for word in encrypted_password[0].split('|'):
+        if len(word) > 1:
+            num = int(word[-1])
+            for i in word[:-1]:
+                B[int(i)] = num
+                N = max(N, int(i))
+    
+    for i in C:
+        B[int(i)] += 10
+        
+    for i in range(N):
+        password.append(B[i] - password[i])
+    
+    for i in range(len(password)):
+        password[i] = characters[password[i]]
+        
+    return ''.join(password)
+
+encrypted_password = input().split('||')
+characters = input()
+print(decrypt(encrypted_password, characters))
