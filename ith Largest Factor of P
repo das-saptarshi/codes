@@ -1,7 +1,7 @@
-'''
+/*
 ith Largest Factor of P:
   This is a Codevita question.
-'''
+*/
 
 import java.io.*;
 import java.util.*;
