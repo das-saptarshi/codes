@@ -1,0 +1,29 @@
+/*
+Staircase Problem:
+    This is a Codevita question.
+    
+    Here we have to find the number of ways we can reach the top of a
+    staircase having N stairs if at any given time we can take only 1 or 2
+    steps.
+*/
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int stairs = scan.nextInt();
+        long[] stairSteps = new long[stairs+1];
+        stairSteps[0] = stairSteps[1] = 1;
+        
+        findSteps(stairSteps, stairs);
+        System.out.println(stairSteps[stairs]);
+    }
+    
+    public static long findSteps(long[] stairSteps, int stair){
+        if(stairSteps[stair] != 0) return stairSteps[stair];
+        
+        stairSteps[stair] = findSteps(stairSteps, stair-1) + findSteps(stairSteps, stair-2);
+        return stairSteps[stair];
+    }
+}
