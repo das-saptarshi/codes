@@ -1,0 +1,14 @@
+'''
+Maneuvering Through a Cave:
+    This is a Codevita question.
+    
+    Given that we are standing at the entrance of a cave (top left corner)
+    which is a MxN matrix we have to find the number of ways we can reach the
+    exit (bottom right corner) if we are only allowed downwards and right directions
+    to travel.
+'''
+from math import factorial
+for _ in range(int(input())):
+    
+    m, n = map(int, input().split())
+    print(factorial(m-1+n-1) // (factorial(m-1)*factorial(n-1)))
