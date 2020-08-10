@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        double[] bank = new double[2];
+        Scanner scan = new Scanner(System.in);
+        double loanAmount = scan.nextDouble();
+        int years = scan.nextInt();
+        
+        for(int i = 0 ; i < 2 ; i++){
+            int span = scan.nextInt();
+            
+            for(int j = 0; j < span ; j++){
+                years = scan.nextInt();
+                double roi = scan.nextDouble();
+                double power = Math.pow(1 + roi, years * 12);
+                bank[i] += (loanAmount * roi / (1 - 1 / power));
+            }
+        }
+        
+        if(bank[0] < bank[1]) System.out.println("Bank A");
+        else System.out.println("Bank B");
+    }
+}
