@@ -1,0 +1,74 @@
+'''
+Earthquake Damage Estimator:
+    This is a Codevita question.
+'''
+
+def find_impact(grid, row, col, R, C, N, radius):
+    '''
+    Recurive method to mark zones of earthquake.
+    '''
+    if not(0 <= row < N) or not(0 <= col < N) or grid[row][col] == 0:
+        return
+    
+    zone = 2
+    if abs(R-row) <= radius and abs(C-col) <= radius or radius == -1:
+        zone = 3
+    
+    if grid[row][col] != 1 and grid[row][col] >= zone:
+        return
+        
+    grid[row][col] = zone
+    
+    
+    for i in [-1,0,1]:
+        for j in [-1,0,1]:
+            find_impact(grid, row+i, col+j, R, C, N, radius)
+    
+        
+'''
+Input Format:
+    Line 1 contains the size of the grid.
+    Next N lines contains N space separated numbers, describing the map.
+    Next line contains the coordinates of the earthquake epicenter.
+    Last line contains the magnitude of the earthquake.
+    
+Output Format:
+    The map of the landscape with the appropriate zones marked.
+    
+Sample Input 1:
+4
+1 0 1 1
+0 0 0 1
+1 0 1 0
+0 0 1 1
+3 3
+3.5
+
+Sample Output 1:
+1 0 2 2
+0 0 0 3
+1 0 3 0
+0 0 3 3 
+'''
+N = int(input())
+grid = [list(map(int, input().split())) for i in range(N)]
+row, col = map(int, input().split())
+intensity = float(input())
+
+radius = 0
+
+if intensity <= 3.0:
+    radius = 0
+elif intensity <= 5.0:
+    radius = 1
+elif intensity <= 8.0:
+    radius = 3
+else:
+    radius = -1
+    
+find_impact(grid, row-1, col-1, row-1, col-1, N, radius)
+
+for i in range(N):
+    for j in range(N):
+        print(grid[i][j], end=' ')
+    print()
