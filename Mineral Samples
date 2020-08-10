@@ -1,0 +1,32 @@
+'''
+Mineral Samples:
+  This is a Codevita question.
+'''
+
+'''
+Input Format:
+  Line 1 contains the number of rocks N and number of ranges R.
+  Line 2 contains N space separated samples of rocks.
+  Next R lines contains 2 space separated numbers denoting start and end
+  of the range.
+  
+Output Format:
+  R numbers denoting number of rock samples in the corresponding
+  range, in a single line separated by space.
+'''
+N, testcases = map(int, input().split())
+rocks = list(map(int, input().split()))
+rocks.sort()
+for _ in range(testcases):
+    start, end = map(int, input().split())
+    L = 0
+    R = len(rocks) - 1
+    while L < R:
+        if rocks[L] < start:
+            L += 1
+        if rocks[R] > end:
+            R -= 1
+        if rocks[L] > start and rocks[R] < end:
+            break
+    
+    print(R - L + 1, end=' ')
