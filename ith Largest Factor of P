@@ -1,0 +1,24 @@
+'''
+ith Largest Factor of P:
+  This is a Codevita question.
+'''
+
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan  = new Scanner(System.in);
+        
+        String input = scan.nextLine();
+        String[] inputs = input.split(",");
+        int num = Integer.valueOf(inputs[0]), limit = Integer.valueOf(inputs[1]);
+        int i = 0;
+        while(limit > 0){
+            i++;
+            if(num % i == 0) limit--;
+        }
+        System.out.print(num / i);
+    }
+}
