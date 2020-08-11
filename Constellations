@@ -1,0 +1,48 @@
+'''
+Constellations:
+    This is a Codevita question.
+'''
+
+def find_pattern(i):
+    global N, grid, patterns
+    if not i+2 < N:
+        return False
+    pattern = ''.join(grid[0][i:i+3] + grid[1][i:i+3] + grid[2][i:i+3])
+    if pattern in patterns:
+        return patterns[pattern]
+    return ''
+
+def is_blank(i):
+    global N, grid
+    pattern = grid[0][i] + grid[1][i] + grid[2][i]
+    if ''.join(pattern) == '...':
+        return True
+    return False
+
+def is_galaxy(i):
+    global N, grid
+    pattern = grid[0][i] + grid[1][i] + grid[2][i]
+    if ''.join(pattern) == '###':
+        return True
+    return False
+
+patterns = {
+    '.*.****.*': 'A',
+    '*********': 'E',
+    '***.*.***': 'I',
+    '****.****': 'O',
+    '*.**.****': 'U'
+}
+N = int(input())
+grid = [input().split() for i in range(3)]
+i = 0
+while i < N:
+    if is_blank(i):
+        i -= 2
+    elif is_galaxy(i):
+        print('#',end='')
+        i -= 2
+    else:
+        print(find_pattern(i),end='')
+    i += 3
+    
