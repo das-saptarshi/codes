@@ -1,0 +1,32 @@
+'''
+Brokerage Problem:
+  This is a Codevita question.
+'''
+try:
+    brokerage_rate = float(input()) / 100
+    buying_amount = float(input())
+    selling_amount = float(input())
+    quantity = int(input())
+    buying_amount *= quantity
+    selling_amount *= quantity
+    profit = selling_amount - buying_amount
+
+    service_tax = 10.36 / 100
+    stt = 0.025 / 100
+    stamp_duty = 0.002 / 100
+    regulatory_chrg = 0.004 / 100
+
+    total_tax = brokerage_rate*(1 + service_tax)*(buying_amount + selling_amount)
+    total_tax += selling_amount*stt
+    total_tax += (buying_amount + selling_amount)*(regulatory_chrg + stamp_duty)
+
+    profit -= total_tax
+
+    if profit > 0:
+        print('Profit')
+    else:
+        print('Loss')
+
+    print(round(abs(profit),2))
+except:
+    print('Invalid Input')
