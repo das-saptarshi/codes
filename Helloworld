@@ -1,0 +1,38 @@
+'''
+Helloworld:
+  This is a Codevita question.
+'''
+
+def compilation_check(string):
+    if not (string[0] == '{' and string[-1] == '}'):
+        return 'Compilation Errors'
+    
+    first_main = True
+    stack = []
+    
+    for i in string[1:-1].split():
+        if i == '<' and first_main and not stack:
+            stack.append(i)
+        elif i == '>' and stack and stack[-1] == '<':
+            stack.pop()
+            first_main = False
+        elif i == '(' and not stack:
+            stack.append(i)
+        elif i == ')' and stack and stack[-1] == '(':
+            stack.pop()
+        elif i == '{' and stack:
+            stack.append(i)
+        elif i == '}' and stack and stack[-1] == '{':
+            stack.pop()
+        elif i in 'P ':
+            continue
+        else:
+            return 'Compilation Errors'
+    
+    if first_main or stack:
+        return 'Compilation Errors'
+    
+    return 'No Compilation Errors'
+
+string = input()
+print(compilation_check(string))
