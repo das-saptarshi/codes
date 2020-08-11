@@ -1,0 +1,39 @@
+'''
+Prime Time Again:
+    This is a Codevita question.
+'''
+
+primes = [True]*500
+primes[0] = primes[1] = False
+
+for i in range(2,500):
+    if primes[i]:
+        for j in range(i*2, 500, i):
+            primes[j] = False
+
+def is_prime_time(primes, index, interval, P):
+    '''
+    Recursive method to check all primes in the sequence.
+    '''
+    if P == 0:
+        return 1
+    
+    if primes[index]:
+        return is_prime_time(primes, index+interval, interval, P-1)
+    return 0
+
+'''
+Input Format:
+    Line 1 contains total hours.
+    Line 2 contains parts in total day.
+    
+Output Format:
+    One line denoting the total number of prime times.
+'''
+D = int(input())
+P = int(input())
+count = 0
+for i in range(2, D//P):
+    count += is_prime_time(primes, i, D//P, P)
+
+print(count)
