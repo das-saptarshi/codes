@@ -1,0 +1,36 @@
+'''
+Signal Connection:
+    This is a Codevita question.
+    
+    Here we are given N tower and for each we are given its following
+    latitudes and longitudes and its height.
+    
+    We are also given the latitude and longitude of a person. We have to count
+    the number of towers accessible from his/her location.
+'''
+
+
+from math import cos, asin, sqrt, pi
+
+def cal_distance(lat1, lon1, lat2, lon2, R):
+    p = pi / 180
+    a = 0.5 - cos((lat2-lat1)*p)/2 + cos(lat1*p) * cos(lat2*p) * (1-cos((lon2-lon1)*p))/2
+    return 2 * R * asin(sqrt(a))
+
+def cal_range(R, h):
+    return sqrt(2*R*h)
+
+N = int(input())
+tower_lats = list(map(float, input().split()))
+tower_longs = list(map(float, input().split()))
+tower_heights = list(map(int, input().split()))
+R = 6371
+my_lat, my_long = map(float, input().split())
+count = 0
+
+for i in range(N):
+    if cal_distance(my_lat, my_long, tower_lats[i], tower_longs[i], R) <= cal_range(R, tower_heights[i]):
+        count += 1
+
+print(count)
+
