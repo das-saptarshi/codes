@@ -1,0 +1,13 @@
+'''
+Philaland Coin:
+  This is a Codevita question.
+'''
+
+for _ in range(int(input())):
+    N = int(input())
+    power = 0
+    limit = 1
+    while limit < N:
+        limit *= 2
+        power += 1
+    print(power)
