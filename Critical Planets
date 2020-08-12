@@ -1,0 +1,78 @@
+/*
+Critical Planets:
+    This is a Codevita question.
+*/
+
+import java.util.*;
+
+public class Main{
+    static int time = 1;
+    
+	public static void main (String[] args) throws java.lang.Exception{
+		Scanner scan = new Scanner(System.in);
+        /*M --> Number of edges.
+          N --> Number of Nodes.*/
+		int M, N;
+		M = scan.nextInt();
+		N = scan.nextInt();
+		
+		HashMap<Integer, ArrayList<Integer>> adjacencyList = new HashMap<Integer, ArrayList<Integer>>();
+		
+		for(int i = 0; i < M; i++){
+		    int vertex1, vertex2;
+		    vertex1 = scan.nextInt();
+		    vertex2 = scan.nextInt();
+		    
+		    ArrayList<Integer> newList = adjacencyList.getOrDefault(vertex1, new ArrayList<Integer>());
+		    newList.add(vertex2);
+		    adjacencyList.put(vertex1, newList);
+		    
+		    newList = adjacencyList.getOrDefault(vertex2, new ArrayList<Integer>());
+		    newList.add(vertex1);
+		    adjacencyList.put(vertex2, newList);
+		}
+		
+		boolean[] visited = new boolean[N];
+		int[] visitingTime = new int[N];
+		TreeSet<Integer> criticalPlanets = new TreeSet<Integer>();
+		
+		findBridges(adjacencyList, visited, visitingTime, -1, 0, criticalPlanets);
+		
+		if(criticalPlanets.isEmpty()) System.out.println(-1);
+    else{
+        Iterator itr = criticalPlanets.iterator();
+		    while(itr.hasNext()) System.out.println(itr.next());
+    }
+	}
+	
+    /*Recursive method to find the bridges in the graph.
+      adjacencyList --> Adjacency List of the graph.
+      visited --> Boolean array describing whether a node is visited or not.
+      visitingTime --> Contains visiting time of all the nodes.
+      current --> Current node number.
+      parent --> Parent of current node.
+      criticalPlanets --> Set of critical Planets.
+    */
+	public static void findBridges(HashMap<Integer, ArrayList<Integer>> adjacencyList, boolean[] visited, int[] visitingTime, int parent, int current, TreeSet<Integer> criticalPlanets){
+	    
+	    visited[current] = true;
+	    visitingTime[current] = time++;
+	    
+	    int minimum_flow = Integer.MAX_VALUE;
+	    
+	    Iterator itr = adjacencyList.get(current).iterator();
+	    
+	    while(itr.hasNext()){
+	        Integer neighbour = (Integer)itr.next();
+	        
+	        if(!visited[neighbour]) findBridges(adjacencyList, visited, visitingTime, current, neighbour, criticalPlanets);
+	        if(neighbour != parent) minimum_flow = Math.min(minimum_flow, visitingTime[neighbour]);
+	    }
+	    
+	    if(parent != -1 && (minimum_flow == Integer.MAX_VALUE || visitingTime[current] - minimum_flow <= 0)){
+	        criticalPlanets.add(current);
+	        criticalPlanets.add(parent);
+	    }
+	    else visitingTime[current] = minimum_flow;
+	}
+}
