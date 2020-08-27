@@ -1,0 +1,37 @@
+'''
+Goldman Sachs:
+    In this problem we have to find that if the array can be splited
+    into pairs such that sum of every pair is divisible by a number k.
+    
+Input Format:
+    First line contains an integer T denoting the number of testcases.
+    Next 3T lines are as follows:
+        Line 1 : Number of elements N in the array.
+        Line 2 : Elements of the array separated by space.
+        Line 3 : An integer k.
+        
+Output Format:
+    True is all the elements can be splited into pairs with the 
+    given condition, else False.
+'''
+for _ in range(int(input())):
+    N = int(input())
+    numbers = list(map(int, input().split()))
+    k = int(input())
+    
+    complements = [0]*(k)
+    
+    for num in numbers:
+        modulus = num % k
+        temp_k = k
+        if modulus == 0:
+            modulus = 0
+            temp_k = 0
+        
+        if complements[temp_k - modulus] == 0:
+            complements[modulus] += 1
+        elif complements[temp_k - modulus] > 0:
+            complements[temp_k - modulus] -= 1
+    
+            
+    print(sum(complements) == 0) 
