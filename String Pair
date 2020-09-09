@@ -1,0 +1,56 @@
+'''
+String Pair:
+    This is a CodeVita question.
+    
+Author : Saptarshi Das
+'''
+
+'''
+Array reprsenting the number of vowels in the string representation of numbers from 1 to 100.
+Preprocessed, hardcoded values.
+'''
+vowels = [2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 3, 2, 3, 4, 3, 3, 4, 4, 4, 1, 3, 2, 3, 3, 3, 2, 3, 3, 3, 1, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 4, 3, 4, 4, 4, 3, 4, 4, 4, 1, 3, 2, 3, 3, 3, 2, 3, 3, 3, 1, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2, 4, 3, 4, 4, 4, 3, 4, 4, 4, 2, 4, 3, 4, 4, 4, 3, 4, 4, 4, 1, 3, 2, 3, 3, 3, 2, 3, 3, 3, 2]
+
+'''
+Dictionary for maintaining string representation of corresponding number. This hashmap contains all the basic string required to generate the rest of the strings.
+'''
+strings = {0: 'zero', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten', 11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen', 16: 'sixteen', 17: 'seventeen', 18: 'eightteen', 19: 'ninteen',20: 'twenty', 30: 'thirty', 40: 'fourty', 50: 'fifty', 60: 'sixty', 70: 'seventy', 80: 'eighty', 90: 'ninty', 100: 'hundred'}
+
+
+'''
+Method to convert number to string representation [1 to 100]. For values > 100 returns "greater than 100".
+'''
+def numberToString(num):
+    global strings
+    if num > 100:
+        return 'greater than 100'
+    if num in strings:
+        return strings[num]
+    
+    onePlace = num % 10
+    return strings[num - onePlace] + ' ' + strings[onePlace]
+
+
+'''
+Input Format:
+    Line 1 contains an integer N denoting the number of elements in the list.
+    Line 2 contains N space separated integers in between 1 to 100.
+    
+Output Format:
+    One line containing the string representation of the number of pairs which can form
+    D from the numbers in the list.
+'''
+target = 0
+N = int(input())
+nums = list(map(int, input().split()))
+
+for i in range(N):
+    target += vowels[nums[i] -1]
+
+complements = set()
+ans = 0
+for i in range(N):
+    if (target - nums[i]) in complements:
+        ans += 1
+    complements.add(nums[i])
+print(numberToString(ans))
