@@ -1,0 +1,80 @@
+'''
+Elections:
+    This is a CodeVita question.
+
+Author : Saptarshi Das
+'''
+
+'''
+Method to fill out the neutral voters and calculate the number of 
+voters for candidate A and B.
+'''
+def fillAandB(voters):
+    n = len(voters)
+    candFound = False
+    number = 2
+    for i in range(n-1, -1, -1):
+        
+        if voters[i] == 1:
+            number = 2
+            candFound = True
+        
+        elif voters[i] == -1:
+            candFound = False
+        
+        
+        elif candFound and voters[i] == 0:
+            voters[i] = number
+            number += 1
+    
+    candFound = False
+    number = 2
+    A = 0
+    B = 0
+    for i in range(n):
+        if voters[i] == -1:
+            number = 2
+            candFound = True
+        elif voters[i] == 1:
+            candFound = False
+        elif candFound:
+            if voters[i] > number:
+                voters[i] = -number
+                number += 1
+            elif voters[i] == number:
+                voters[i] = 0
+                candFound = False
+        if voters[i] > 0:
+            A += 1
+        elif voters[i] < 0:
+            B += 1
+    return A, B
+
+
+'''
+Input Format:
+    One line containing the queue formation of the voters.
+
+Output Format:
+    One line denoting the winner of the election. If both candidates have equal
+    number of votes then print 'Coalition Government'
+'''
+string = input()
+voters = [0]*len(string)
+
+for i in range(len(string)):
+    if string[i] == 'A':
+        voters[i] = 1
+    elif string[i] == 'B':
+        voters[i] = -1
+
+A, B = fillAandB(voters)
+
+if A > B:
+    print('A')
+elif B > A:
+    print('B')
+else:
+    print('Coalition Government')
+
+    
