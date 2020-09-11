@@ -1,0 +1,70 @@
+'''
+Jogging Ground:
+    This is a CodeVita question.
+    
+Author : Saptarshi Das.
+'''
+
+
+from math import cos, sin, radians, sqrt
+
+'''
+Method to calculate the coordinates of the jogger after running in the its respective
+track.
+'''
+def findEndPoints(index):
+    global radius_coords, radius, starting_angle, velocity, direction, time
+    angle = 90 - starting_angle[i] + direction[i]*velocity[i]*time
+    if angle < 0:
+        angle += 360
+    angle = radians(angle)
+    Cx = 0
+    Cy = radius_coords[i]
+    
+    return (Cx + radius*cos(angle), Cy + radius*sin(angle))
+
+    
+
+'''
+Input Format:
+    Line 1 contains 4 integers. 1st is the radius of all the circles and consequent
+    integers are the distance of the respective circle's center from the center of the
+    first circle.
+    
+    Line 2 contains the starting angle of the joggers. The angles are situated as follows:
+                                90
+                                   
+                        270              0
+                                
+                                180
+    
+    Line 3 contains 4 space separated integers denoting the speed of respective jogger.
+    
+    Line 4 contains the direction of every jogger (0 -> clockwise, 1 -> anticlockwise)
+    
+    Line 5 contains an integer denoting the time till which all the joggers will jog.
+    
+Output Format:
+    The total distance between joggers 1 -> 2, 2 -> 3, 3 -> 4 rounded ti the nearest integer.
+
+'''
+radius_coords = list(map(int, input().split()))
+radius = radius_coords[0]
+for i in range(1,4):
+    radius_coords[i] += 10
+    
+starting_angle = list(map(int, input().split()))
+velocity = list(map(int, input().split()))
+direction = [1 if i == '0' else -1 for i in input().split()]
+time = int(input())
+end_points = [0]*4
+
+for i in range(4):
+    end_points[i] = findEndPoints(i)
+
+total_dist = 0
+for i in range(1,4):
+    total_dist += sqrt((end_points[i][0] - end_points[i-1][0])**2 + (end_points[i][1] - end_points[i-1][1])**2)
+    
+print(round(total_dist))
+    
