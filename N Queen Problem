@@ -1,0 +1,82 @@
+'''
+N Queen Problem:
+    This is an Algorithm question.
+
+Author : Saptarshi Das.
+'''
+'''
+Helper Method to print the board.
+'''
+def printBoard(board, N):
+    symbol = {0 : ' - ', 1: ' Q '}
+    
+    for i in range(N):
+        for j in range(N):
+            print(symbol[board[i][j]], end='')
+        print()
+    print()
+
+    
+'''
+Helper Method to check whether the provided row and col is safe to
+place a queen or not.
+This method calls a recursive method to check all the possible places.
+'''
+def isSafe(row, col, board, N):
+    if board[row][col] != 0:
+        return False
+    
+    for i in [-1, 0, 1]:
+        for j in [-1, 0, 1]:
+            if i == 0 and j == 0:
+                continue
+            
+            if not safe(row+i, col+j, i, j, board, N):
+                return False
+    return True
+
+'''
+Recursive method to check all the directions for queen's position.
+'''
+def safe(row, col, i, j, board, N):
+    if not(0 <= row < N and 0 <= col < N):
+        return True
+    if board[row][col] == 1:
+        return False
+    
+    return safe(row+i, col+j, i, j, board, N)
+
+
+'''
+Main method to place queens in all possible positions and return the number
+of combinations possible.
+'''
+def placeQueens(board, queen, N):
+    if queen >= N:
+        printBoard(board, N)
+        return 1
+    
+    ans = 0
+    for j in range(N):
+        if isSafe(queen, j, board, N):
+            board[queen][j] = 1
+            ans += placeQueens(board, queen+1, N)
+            board[queen][j] = 0
+    
+    return ans
+
+
+'''
+Input Format:
+    One line containing the size of the chess board.
+    
+Output Format:
+    Print all the possible combinations and the count of all possible
+    combinations at the last.
+'''
+N = int(input())
+board = [[0]*N for _ in range(N)]
+count = placeQueens(board, 0, N)
+print(count)
+        
+    
