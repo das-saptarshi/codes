@@ -1,0 +1,37 @@
+'''
+Parentheses Generator:
+    This is a LeetCode question.
+    
+Author : Saptarshi Das.
+'''
+
+'''
+Recursive method to find all the possible parentheses combinations.
+'''
+def parenthesesGenerator(opening, closing, parentheses, ans):
+    
+    if opening == 0 and opening == closing:
+        ans.append(parentheses)
+        return
+    
+    if opening > 0:
+        parenthesesGenerator(opening-1, closing, parentheses + '(', ans)
+    
+    if closing > opening:
+        parenthesesGenerator(opening, closing-1, parentheses + ')', ans)
+
+        
+'''
+Input Format:
+    An integer N denoting the number of opening parentheses.
+    
+Output Format:
+    All the combinations in a separate line.
+'''
+N = int(input())
+ans = []
+parenthesesGenerator(N, N, '', ans)
+
+for s in ans:
+    print(s)
+        
