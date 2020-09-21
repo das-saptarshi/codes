@@ -1,0 +1,42 @@
+'''
+Collision Course:
+    This is a CodeVita question.
+    
+Author : Saptarshi Das.
+'''
+from math import sqrt
+
+
+'''
+Utility method to calculate the total number of possible collisions.
+'''
+def combination(n, r):
+    ans = 1
+    for i in range(1,r+1):
+        ans = ans * n // i
+        n -= 1
+    return ans
+
+
+'''
+Input Format:
+    Line 1 contains the number of cars N.
+    Next lines contains 3 numbers, the coordinates of the car and its
+    velocity (x, y, v)
+
+Output Format:
+    An integer denoting the total number of collisions.
+'''
+colliding_cars = 0
+origin_crossing_time = dict()
+try:
+    for _ in range(int(input())):
+        x, y, v = map(int, input().split())
+        time = (sqrt((x**2) + (y**2))) / v
+        origin_crossing_time[time] = origin_crossing_time.get(time, 0) + 1
+
+    for count in origin_crossing_time.values():
+        colliding_cars += combination(count, 2)
+    print(colliding_cars)
+except:
+    print('Invalid Input')
