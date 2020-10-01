@@ -1,0 +1,71 @@
+'''
+This is a NQT question
+
+Author : Saptarshi Das.
+'''
+
+'''
+Method to find the Nth Fibonacci Number.
+'''
+def nth_fibo_number(N):
+    if N <= 2:
+        return 1
+    first = 1
+    second = 1
+    third = 0
+    for i in range(2, N):
+        third = first + second
+        first, second = second, third
+    
+    return third
+
+
+'''
+Primality checking method.
+'''
+def is_prime(N):
+    
+    if N <= 3:
+        return True
+    
+    if N % 2 == 0 or N % 3 == 0:
+        return False
+    
+    for i in range(2, int(math.sqrt(N))+1):
+        if N % i == 0 or N % (i+2) == 0:
+            return False
+    return True
+
+
+'''
+Method to find the Nth Prime Number.
+'''
+def nth_prime_number(N):
+    if N == 1:
+        return 2
+    N -= 1
+    number = 2
+    prime = 2
+    while N > 0:
+        number += 1
+        if is_prime(number):
+            prime = number
+            number += 1
+            N -= 1
+            
+    return prime
+
+
+'''
+Input Format:
+    A number N.
+
+Output Format:
+    An integer denoting the Nth number of the series.
+'''
+N = int(input())
+
+if N % 2 == 0:
+    print(nth_prime_number((N+1)//2))
+else:
+    print(nth_fibo_number((N+1)//2))
