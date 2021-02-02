@@ -1,0 +1,51 @@
+'''
+Author: Saptarshi Das
+Date: 02/02/2021
+Title: TCS Codevita Practice Question - Binary Equivalent
+'''
+
+
+
+'''
+Method to find the number of subsets of the set 'nums' which have sum = 0.
+'''
+def perfect_numbers(i, s, nums, dp, n):
+    if i == n:
+        if s == 0:
+            return 1
+        return 0
+    
+    if s in dp[i]:
+        return dp[i][s]
+    
+    dp[i][s] = perfect_numbers(i+1, s+nums[i], nums, dp, n) + perfect_numbers(i+1, s, nums, dp, n)
+    
+    return dp[i][s]
+
+
+
+'''
+Input:
+    First line contains an integer 'N' denoting the number of elements.
+    Second line contains N space separated numbers.
+'''
+N = int(input())
+nums = list(map(int, input().split()))
+bit_len = len(bin(max(nums)))-2
+bit_diff = []
+
+for num in nums:
+    ones = bin(num)[2:].count('1')
+    zeros = bit_len-ones
+    bit_diff.append(zeros-ones)
+
+dp = [{} for i in range(N)]
+ans = perfect_numbers(0, 0, bit_diff, dp, N)-1
+result = bin(ans)[2:].rjust(bit_len, '0')
+
+'''
+Output:
+    Single line containing the number of the subsets with sum 0, in binary form
+    with number bits as the number of bits in the maximum number in the list.
+'''
+print(result[-bit_len:])
