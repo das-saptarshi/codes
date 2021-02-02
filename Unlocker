@@ -1,0 +1,98 @@
+'''
+Author: Saptarshi Das
+Date: 02/02/2021
+Title: TCS Codevita Practice Question - Unlocker.
+'''
+
+'''
+Method to get the initial position of a particular layer and in 
+which group it is.
+'''
+def get_initial_points(a, b, c, d, steps):
+    x, y = a, c
+    while steps > 0:
+        if x == a and y != d:
+            temp_steps = min(steps, d-y)
+            y += temp_steps
+        elif y == d and x != b:
+            temp_steps = min(steps, b-x)
+            x += temp_steps
+        elif x == b and y != c:
+            temp_steps = min(steps, y-c)
+            y -= temp_steps
+        elif y == c and x != a:
+            temp_steps = min(steps, x-a)
+            x -= temp_steps
+            
+        steps -= temp_steps
+        
+    if x == a and y != d: group = 0
+    elif y == d and x != b: group = 1
+    elif x == b and y != c: group = 2
+    else: group = 3
+    
+    return x, y, group
+
+
+'''
+Method to build the final unlocked pattern of the safe.
+'''
+def rotate_lock(lock, m, n, rotations):
+    
+    final_lock = [[0]*n for _ in range(m)]
+    odd = True
+    row = [0, 1, 0, -1]
+    col = [1, 0, -1, 0]
+    a, b, c, d = 0, m-1, 0, n-1
+    while a < b and c < d:
+        eles = (m+n)*2 - 4
+        rotation = rotations[0] % eles
+        rotations.pop(0)
+        if odd:
+            rotation = (eles - rotation)%eles
+            
+        x, y, final_index = get_initial_points(a, b, c, d, rotation)
+        i, j = a, c
+        index = 0
+        while eles > 0:
+            final_lock[x][y] = lock[i][j]
+            
+            if not (a <= x + row[final_index] <= b and c <= y + col[final_index] <= d):
+                final_index = (final_index+1)%4
+            if not (a <= i + row[index] <= b and c <= j + col[index] <= d):
+                index = (index+1)%4
+                
+            x += row[final_index]
+            y += col[final_index]
+            i += row[index]
+            j += col[index]
+            eles -= 1
+        a += 1
+        b -= 1
+        c += 1
+        d -= 1
+        m -= 2
+        n -= 2
+        odd = not odd
+    return final_lock
+
+
+'''
+Input:
+    First line contains two integers M and N denoting the number of rows and
+    columns in the lock. Note: Both M and N will be even.
+    Next M lines will contain N space separated integers.
+    The last line will contain space separated integers denoting the rotations.
+'''
+m, n = map(int, input().split())
+lock = [list(map(int, input().split())) for _ in range(m)]
+rotations = list(map(int, input().split()))
+
+final_lock = rotate_lock(lock, m, n, rotations)
+
+'''
+Output:
+    The whole lock with the pattern to open the safe.
+'''
+for layer in final_lock:
+    print(*layer)
