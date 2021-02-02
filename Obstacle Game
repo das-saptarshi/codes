@@ -1,0 +1,64 @@
+'''
+Author: Saptarshi Das
+Date: 02/02/2021
+Title: TCS Codevita Practice Question - Obstacle Game
+'''
+
+'''
+Method to find the route from the starting point 'A' at (0,0) to the
+destination 'D', somewhere in the matrix.
+'''
+def find_route(matrix, row, col, N, route):
+    if not(0 <= row < N and 0 <= col < N) or matrix[row][col] in 'STLWM-':
+        return False
+     
+    if matrix[row][col] == 'D':
+        route.append(['DESTINATION'])
+        return True
+    
+    matrix[row][col] = '-'
+    surrounding_elements = find_surrounding_elements(matrix, row, col)
+    route.append(surrounding_elements)
+    
+    for i in [-1, 0, 1]:
+        for j in [-1, 0, 1]:
+            if find_route(matrix, row+i, col+j, N, route):
+                return True
+    route.pop()
+    return False
+
+
+'''
+Method to find and list the surrounding obstacles of a
+route point 'R'.
+'''
+def find_surrounding_elements(matrix, row, col):
+    elements = []
+    
+    for i in [-1, 0, 1]:
+        for j in [-1, 0, 1]:
+            if 0 <= row+i < N and 0 <= col+j < N and matrix[row+i][col+j] in 'SLTW':
+                elements.append(matrix[row+i][col+j])
+    if not elements:
+        return ['NO HURDLES']
+    return elements
+
+
+'''
+Input: 
+    The first line contains an integer 'N' which denotes the size of the matix.
+    The next N lines have N letters denoting the different elements in the matrix.
+'''
+N = int(input())
+matrix = [input().split() for _ in range(N)]
+route = []
+find_route(matrix, 0, 0, N, route)
+
+
+'''
+Output:
+    For every route point 'R' print its surrounding hurdles in alphabetical order.
+    The last line should be 'DESTINATION' denoting the end of route.
+'''
+for step in route[1:]:
+    print(*sorted(step))
