@@ -1,0 +1,16 @@
+'''
+Title: Odd Occurrence of Zeros - Uber Hacktag
+Author: Saptarshi Das
+Date: 28/02/2021
+'''
+
+def oddOccurrenceOfZeors(nums):
+    result = []
+    for num in nums:
+        results.append(str(num).count('0') % 2 == 1)
+    return result
+
+N = int(input())
+nums = list(map(int, input().split()))
+result = oddOccurrenceOfZeros(nums)
+print(*result)
