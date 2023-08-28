@@ -1,6 +1,7 @@
 # Link to Problem: https://leetcode.com/problems/frog-jump/
 # Time Complexity: O(n**2)
 # Space Complexity: O(n**2)
+
 from typing import List
 
 class Solution:
