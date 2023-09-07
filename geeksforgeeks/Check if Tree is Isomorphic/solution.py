@@ -1,5 +1,5 @@
 '''
-- Link to Problem: https://leetcode.com/problems/extra-characters-in-a-string/
+- Link to Problem: https://practice.geeksforgeeks.org/problems/check-if-tree-is-isomorphic/1
 - Time Complexity: O(N**2) [N = min(nodes in root1, nodes in root2)]
 - Space Complexity: O(1)
 '''
