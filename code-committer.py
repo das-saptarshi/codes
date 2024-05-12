@@ -80,7 +80,7 @@ class CommitHelper:
 
 import sys
 if __name__ == '__main__':
-    helper = CommitHelper(repo_path='D:/repos/codes')
+    helper = CommitHelper(repo_path='E:/Repos/codes')
     
     if not helper.is_changes_added():
         print('No Changes...')
