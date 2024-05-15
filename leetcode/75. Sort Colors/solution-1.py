@@ -2,6 +2,8 @@
 - Link to Problem: https://leetcode.com/problems/sort-colors/
 - Time Complexity: O(N)
 - Space Complexity: O(1)
+- Metadata:
+    - Algorithm: Dutch National Flag Algorithm
 '''
 
 from typing import List
