@@ -1,3 +1,4 @@
+import os
 from git import Repo, exc
 from typing import List
 
@@ -28,7 +29,7 @@ class CommitHelper:
     COMMIT_DESCRIPTION_KEY = 'commit_description'
     FILE_KEY = 'file'
 
-    COMMIT_COMMAND = 'git commit -m "{commit_message}" -m "{commit_description}"'
+    COMMIT_COMMAND = '{commit_message}\n\n{commit_description}'
 
     def __init__(self, repo_path: str = None):
         assert repo_path is not None, 'Repository Path cannot be None.'
@@ -40,7 +41,7 @@ class CommitHelper:
         except exc.InvalidGitRepositoryError:
             assert True, f'Repository {repo_path} not valid'
 
-        self.repo.git.execute('git restore --staged .')
+        self.repo.git.restore('--staged', '.')
     
     def is_changes_added(self) -> bool:
         return self.repo.is_dirty(untracked_files=True)
@@ -54,7 +55,7 @@ class CommitHelper:
         assert commit_description, f'Invalid commit description: {commit_description}'
 
         self.repo.index.add(file)
-        self.repo.git.execute(self.COMMIT_COMMAND.format(commit_message=commit_message, commit_description=commit_description))
+        self.repo.index.commit(self.COMMIT_COMMAND.format(commit_message=commit_message, commit_description=commit_description))
 
     def create_commit_details(self, file: str):
         sections = file.split('/')
@@ -80,7 +81,7 @@ class CommitHelper:
 
 import sys
 if __name__ == '__main__':
-    helper = CommitHelper(repo_path='./')
+    helper = CommitHelper(repo_path=os.getcwd())
     
     if not helper.is_changes_added():
         print('No Changes...')
